@@ -2,11 +2,16 @@ package com.bookinggo.annotationbasedexperiments.services.impl;
 
 import com.bookinggo.annotationbasedexperiments.experiment.Experiment;
 import com.bookinggo.annotationbasedexperiments.services.ExperimentService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Scope;
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@Scope("thread")
+@ConditionalOnMissingBean(type = "ExperimentService")
 public class ExperimentServiceImpl implements ExperimentService {
 
     private List<Experiment> experiments = new ArrayList<>();
@@ -17,12 +22,12 @@ public class ExperimentServiceImpl implements ExperimentService {
     }
 
     @Override
-    public void addExperiment(Experiment experimentToAdd){
+    public void addExperiment(Experiment experimentToAdd) {
         experiments.add(experimentToAdd);
     }
 
     @Override
-    public void addAllExperiments(List<Experiment> experimentsToAdd){
+    public void addAllExperiments(List<Experiment> experimentsToAdd) {
         experiments.addAll(experimentsToAdd);
     }
 

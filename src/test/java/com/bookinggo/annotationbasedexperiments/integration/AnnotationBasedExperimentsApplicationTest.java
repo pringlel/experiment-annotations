@@ -1,4 +1,4 @@
-package com.bookinggo.annotationbasedexperiments;
+package com.bookinggo.annotationbasedexperiments.integration;
 
 import com.bookinggo.annotationbasedexperiments.config.TestConfig;
 import com.bookinggo.annotationbasedexperiments.experiment.Experiment;
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = TestConfig.class)
-public class AnnotationBasedExperimentsApplicationTests {
+public class AnnotationBasedExperimentsApplicationTest {
     @Autowired
     private DummyInterface dummyExperimental;
     @Autowired

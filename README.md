@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/LiamPringle/LiamPringle/_apis/build/status/pringlel.experiment-annotations?branchName=master)](https://dev.azure.com/LiamPringle/LiamPringle/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/LiamPringle/LiamPringle/_apis/build/status/pringlel.experiment-annotations?branchName=master)](https://dev.azure.com/LiamPringle/LiamPringle/_build/latest?definitionId=1&branchName=master) [![codecov](https://codecov.io/gh/pringlel/experiment-annotations/branch/master/graph/badge.svg)](https://codecov.io/gh/pringlel/experiment-annotations)
 
 # What is this?
 This is an additional annotation for spring boot that allows you to configure AB Experiments to spring bean methods

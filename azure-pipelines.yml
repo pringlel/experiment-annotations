@@ -17,3 +17,7 @@ steps:
     mavenVersionOption: 'Default'
     mavenAuthenticateFeed: false
     sonarQubeRunAnalysis: false
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: '(curl -s https://codecov.io/bash) -t af2b16ff-aa66-4545-8891-36be89b10be6'

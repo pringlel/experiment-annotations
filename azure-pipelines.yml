@@ -12,6 +12,7 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     codeCoverageToolOption: 'Cobertura'
+    codeCoverageClassFilter: '**/*.class'
     codeCoverageFailIfEmpty: true
     javaHomeOption: 'JDKVersion'
     mavenVersionOption: 'Default'

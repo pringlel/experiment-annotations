@@ -8,11 +8,10 @@ steps:
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
-    goals: 'cobertura:cobertura'
+    goals: 'test'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    codeCoverageToolOption: 'Cobertura'
-    codeCoverageClassFilter: '**/*.class'
+    codeCoverageToolOption: 'JaCoCo'
     codeCoverageFailIfEmpty: true
     javaHomeOption: 'JDKVersion'
     mavenVersionOption: 'Default'

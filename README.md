@@ -30,7 +30,7 @@ It is comprised of one annotation '@ExperimentOf' that takes 3 required paramete
     }
 
 ```
-> This example shows how you would create an experiment on the method addition using the property `experiment.toggle.property` to toggle the experiment,an experiment id of 1 and that which methods correspond to which variants
+> This example shows how you would create an experiment on the method addition using the property `experiment.toggle.property` to toggle the experiment, an experiment id of 1 and which methods correspond to which variants.
 
 # Getting Started
 

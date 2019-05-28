@@ -15,8 +15,6 @@ public class Experiment {
         this.impacted = used;
     }
 
-
-
     public int getId() {
         return id;
     }

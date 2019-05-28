@@ -15,22 +15,7 @@ public class Experiment {
         this.impacted = used;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Experiment)) return false;
 
-        Experiment that = (Experiment) o;
-
-        if (id != that.id) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
 
     public int getId() {
         return id;
@@ -48,7 +33,4 @@ public class Experiment {
         return variant;
     }
 
-    public void setVariant(String variant) {
-        this.variant = variant;
-    }
 }

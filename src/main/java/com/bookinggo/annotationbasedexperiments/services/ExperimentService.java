@@ -10,10 +10,6 @@ public interface ExperimentService {
 
     void addExperiment(Experiment experiment);
 
-    void addAllExperiments(List<Experiment> experimentsToAdd);
-
-    void removeExperiment(Experiment experiment);
-
     void removeAllExperiments();
 
     void impact(int id);

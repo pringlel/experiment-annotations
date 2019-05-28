@@ -27,16 +27,6 @@ public class ExperimentServiceImpl implements ExperimentService {
     }
 
     @Override
-    public void addAllExperiments(List<Experiment> experimentsToAdd) {
-        experiments.addAll(experimentsToAdd);
-    }
-
-    @Override
-    public void removeExperiment(Experiment experiment) {
-        experiments.remove(experiment);
-    }
-
-    @Override
     public void removeAllExperiments() {
         experiments.clear();
     }

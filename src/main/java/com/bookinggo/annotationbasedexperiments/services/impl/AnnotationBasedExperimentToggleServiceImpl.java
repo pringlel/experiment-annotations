@@ -12,7 +12,7 @@ public class AnnotationBasedExperimentToggleServiceImpl implements AnnotationBas
 
     @Override
     public boolean getExperimentToggle(String applicationPropertyKey) {
-        return applicationPropertyMap.get(applicationPropertyKey);
+        return applicationPropertyMap.getOrDefault(applicationPropertyKey, false);
     }
 
     @Override

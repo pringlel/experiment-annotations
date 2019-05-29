@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("com.bookinggo.annotationbasedexperiments.services")
-public class AppConfig {
+public class AnnotationBasedExperimentsConfig {
 
     @Bean
     public static BeanFactoryPostProcessor beanFactoryPostProcessor() {

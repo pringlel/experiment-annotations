@@ -1,6 +1,6 @@
 package com.bookinggo.annotationbasedexperiments.services;
 
-public interface ExperimentToggleService {
+public interface AnnotationBasedExperimentToggleService {
 
     boolean getExperimentToggle(String key);
 

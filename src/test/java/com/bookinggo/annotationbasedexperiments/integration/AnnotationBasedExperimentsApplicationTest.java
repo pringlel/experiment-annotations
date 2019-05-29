@@ -1,12 +1,9 @@
 package com.bookinggo.annotationbasedexperiments.integration;
 
 import com.bookinggo.annotationbasedexperiments.config.TestConfig;
-import com.bookinggo.annotationbasedexperiments.experiment.Experiment;
-import com.bookinggo.annotationbasedexperiments.experiment.ExperimentVariant;
-import com.bookinggo.annotationbasedexperiments.services.ExperimentService;
-import com.bookinggo.annotationbasedexperiments.services.ExperimentToggleService;
-import com.bookinggo.annotationbasedexperiments.services.impl.ExperimentServiceImpl;
-import com.bookinggo.annotationbasedexperiments.services.impl.experimentframework.DummyExperimental;
+import com.bookinggo.annotationbasedexperiments.experiment.AnnotationExperiment;
+import com.bookinggo.annotationbasedexperiments.services.AnnotationBasedExperimentService;
+import com.bookinggo.annotationbasedexperiments.services.AnnotationBasedExperimentToggleService;
 import com.bookinggo.annotationbasedexperiments.services.impl.experimentframework.DummyInterface;
 import org.junit.After;
 import org.junit.Test;
@@ -24,68 +21,68 @@ public class AnnotationBasedExperimentsApplicationTest {
     @Autowired
     private DummyInterface dummyExperimental;
     @Autowired
-    private ExperimentService experimentService;
+    private AnnotationBasedExperimentService annotationBasedExperimentService;
     @Autowired
-    private ExperimentToggleService experimentToggleService;
+    private AnnotationBasedExperimentToggleService annotationBasedExperimentToggleService;
 
     @After
-    public void tearDown(){
-        experimentService.removeAllExperiments();
-        experimentToggleService.removeAllApplicationProperties();
+    public void tearDown() {
+        annotationBasedExperimentService.removeAllExperiments();
+        annotationBasedExperimentToggleService.removeAllApplicationProperties();
     }
 
     @Test
-    public void shouldUseSubtractionWhenVariantIsB(){
-        Experiment experiment = new Experiment(66666, "B",false);
-        int randomNumber = (int)(Math.random() * 100);
-        int otherRandomNumber = (int)(Math.random() * 100);
+    public void shouldUseSubtractionWhenVariantIsB() {
+        AnnotationExperiment annotationExperiment = new AnnotationExperiment(66666, "B", false);
+        int randomNumber = (int) (Math.random() * 100);
+        int otherRandomNumber = (int) (Math.random() * 100);
 
-        experimentService.addExperiment(experiment);
-        experimentToggleService.addApplicationProperty("number.of.beast.experiment",true);
+        annotationBasedExperimentService.addExperiment(annotationExperiment);
+        annotationBasedExperimentToggleService.addApplicationProperty("number.of.beast.experiment", true);
 
         int result = dummyExperimental.addition(randomNumber, otherRandomNumber);
         assertThat(result, is(randomNumber - otherRandomNumber));
 
-        experimentService.getExperiments().stream()
-                .filter(currentExperiment -> currentExperiment.getId() == experiment.getId() )
+        annotationBasedExperimentService.getAnnotationExperiments().stream()
+                .filter(currentExperiment -> currentExperiment.getId() == annotationExperiment.getId())
                 .findFirst()
-                .ifPresent(currentExperiment ->  assertThat(currentExperiment.isImpacted(), is(true)));
+                .ifPresent(currentExperiment -> assertThat(currentExperiment.isImpacted(), is(true)));
     }
 
     @Test
-    public void shouldUseAdditionWhenVariantIsA(){
-        Experiment experiment = new Experiment(66666, "A",false);
-        int randomNumber = (int)(Math.random() * 100);
-        int otherRandomNumber = (int)(Math.random() * 100);
+    public void shouldUseAdditionWhenVariantIsA() {
+        AnnotationExperiment annotationExperiment = new AnnotationExperiment(66666, "A", false);
+        int randomNumber = (int) (Math.random() * 100);
+        int otherRandomNumber = (int) (Math.random() * 100);
 
-        experimentService.addExperiment(experiment);
-        experimentToggleService.addApplicationProperty("number.of.beast.experiment",true);
+        annotationBasedExperimentService.addExperiment(annotationExperiment);
+        annotationBasedExperimentToggleService.addApplicationProperty("number.of.beast.experiment", true);
 
         int result = dummyExperimental.addition(randomNumber, otherRandomNumber);
         assertThat(result, is(randomNumber + otherRandomNumber));
 
-        experimentService.getExperiments().stream()
-                .filter(currentExperiment -> currentExperiment.getId() == experiment.getId() )
+        annotationBasedExperimentService.getAnnotationExperiments().stream()
+                .filter(currentExperiment -> currentExperiment.getId() == annotationExperiment.getId())
                 .findFirst()
-                .ifPresent(currentExperiment ->  assertThat(currentExperiment.isImpacted(), is(true)));
+                .ifPresent(currentExperiment -> assertThat(currentExperiment.isImpacted(), is(true)));
     }
 
     @Test
-    public void shouldUseAdditionWhenVariantIsBAndToggleIsOff(){
-        Experiment experiment = new Experiment(66666, "B",false);
-        int randomNumber = (int)(Math.random() * 100);
-        int otherRandomNumber = (int)(Math.random() * 100);
+    public void shouldUseAdditionWhenVariantIsBAndToggleIsOff() {
+        AnnotationExperiment annotationExperiment = new AnnotationExperiment(66666, "B", false);
+        int randomNumber = (int) (Math.random() * 100);
+        int otherRandomNumber = (int) (Math.random() * 100);
 
-        experimentService.addExperiment(experiment);
-        experimentToggleService.addApplicationProperty("number.of.beast.experiment",false);
+        annotationBasedExperimentService.addExperiment(annotationExperiment);
+        annotationBasedExperimentToggleService.addApplicationProperty("number.of.beast.experiment", false);
 
         int result = dummyExperimental.addition(randomNumber, otherRandomNumber);
         assertThat(result, is(randomNumber + otherRandomNumber));
 
-        experimentService.getExperiments().stream()
-                .filter(currentExperiment -> currentExperiment.getId() == experiment.getId() )
+        annotationBasedExperimentService.getAnnotationExperiments().stream()
+                .filter(currentExperiment -> currentExperiment.getId() == annotationExperiment.getId())
                 .findFirst()
-                .ifPresent(currentExperiment ->  assertThat(currentExperiment.isImpacted(), is(false)));
+                .ifPresent(currentExperiment -> assertThat(currentExperiment.isImpacted(), is(false)));
     }
 
 }

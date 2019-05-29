@@ -12,7 +12,10 @@ import java.lang.annotation.Target;
 public @interface ExperimentOf {
 
     int id();
+
     String property();
+
     String expression() default "";
+
     ExperimentVariant variant();
 }

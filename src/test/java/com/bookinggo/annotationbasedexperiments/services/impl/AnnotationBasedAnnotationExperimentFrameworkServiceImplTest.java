@@ -1,9 +1,9 @@
 package com.bookinggo.annotationbasedexperiments.services.impl;
 
-import com.bookinggo.annotationbasedexperiments.experiment.Experiment;
-import com.bookinggo.annotationbasedexperiments.services.ExperimentService;
-import com.bookinggo.annotationbasedexperiments.services.ExperimentToggleService;
-import com.bookinggo.annotationbasedexperiments.services.ExpressionService;
+import com.bookinggo.annotationbasedexperiments.experiment.AnnotationExperiment;
+import com.bookinggo.annotationbasedexperiments.services.AnnotationBasedExperimentService;
+import com.bookinggo.annotationbasedexperiments.services.AnnotationBasedExperimentToggleService;
+import com.bookinggo.annotationbasedexperiments.services.AnnotationBasedExpressionService;
 import com.bookinggo.annotationbasedexperiments.services.impl.experimentframework.DummyExperimental;
 import com.bookinggo.annotationbasedexperiments.services.impl.experimentframework.DummyInterface;
 import com.bookinggo.annotationbasedexperiments.services.impl.experimentframework.SearchContext;
@@ -26,18 +26,18 @@ import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class ExperimentFrameworkServiceImplTest {
+public class AnnotationBasedAnnotationExperimentFrameworkServiceImplTest {
     private static final String NUMBER_OF_BEAST_EXPERIMENT = "number.of.beast.experiment";
     private static final String ALL_THE_ONES_EXPERIMENT = "all.the.ones.experiment";
     private static final String SINE_COSINE= "sine.cosine";
 
     @Mock
-    private ExperimentService experimentService;
+    private AnnotationBasedExperimentService annotationBasedExperimentService;
     @Mock
-    private ExperimentToggleService experimentToggleService;
+    private AnnotationBasedExperimentToggleService annotationBasedExperimentToggleService;
 
     @Mock
-    private ExpressionService expressionService;
+    private AnnotationBasedExpressionService annotationBasedExpressionService;
 
     private DummyInterface dummyExperimentalProxy;
     private SearchContext searchContext;
@@ -45,7 +45,7 @@ public class ExperimentFrameworkServiceImplTest {
     @Before
     public void setUp() {
         searchContext = new SearchContext();
-        ExperimentFrameworkServiceImpl experimentFrameworkService = new ExperimentFrameworkServiceImpl(experimentService, expressionService, experimentToggleService);
+        AnnotationBasedExperimentFrameworkServiceImpl experimentFrameworkService = new AnnotationBasedExperimentFrameworkServiceImpl(annotationBasedExperimentService, annotationBasedExpressionService, annotationBasedExperimentToggleService);
         experimentFrameworkService.init();
         AspectJProxyFactory factory = new AspectJProxyFactory(new DummyExperimental());
         factory.addAspect(experimentFrameworkService);
@@ -55,20 +55,20 @@ public class ExperimentFrameworkServiceImplTest {
 
     @Test
     public void givenApplicationPropertyOffShouldNotDoExperiment(){
-        when(experimentService.getExperiments()).thenReturn(Collections.singletonList(new Experiment(66666, "B", false)));
-        when(experimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(false);
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(Collections.singletonList(new AnnotationExperiment(66666, "B", false)));
+        when(annotationBasedExperimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(false);
         int randomNumber = (int) (Math.random() * 100);
         int otherRandomNumber = (int) (Math.random() * 100);
 
         int result = dummyExperimentalProxy.addition(randomNumber, otherRandomNumber);
-        verify(experimentService,times(0)).impact(66666);
+        verify(annotationBasedExperimentService,times(0)).impact(66666);
         assertThat(result, is(randomNumber + otherRandomNumber));
     }
 
     @Test
     public void shouldRedirectDueToSubtractExperimentVariantB_beingPresent() {
-        when(experimentService.getExperiments()).thenReturn(Collections.singletonList(new Experiment(66666, "B", false)));
-        when(experimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(Collections.singletonList(new AnnotationExperiment(66666, "B", false)));
+        when(annotationBasedExperimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
 
         int randomNumber = 100;
         int otherRandomNumber = 100;
@@ -80,8 +80,8 @@ public class ExperimentFrameworkServiceImplTest {
 
     @Test
     public void shouldRedirectDueToMultiplicationExperimentVariantC_beingPresent() {
-        when(experimentService.getExperiments()).thenReturn(Collections.singletonList(new Experiment(66666, "C", false)));
-        when(experimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(Collections.singletonList(new AnnotationExperiment(66666, "C", false)));
+        when(annotationBasedExperimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
 
         int randomNumber = (int) (Math.random() * 100);
         int otherRandomNumber = (int) (Math.random() * 100);
@@ -93,8 +93,8 @@ public class ExperimentFrameworkServiceImplTest {
 
     @Test
     public void shouldRedirectDueToDivisionExperimentVariantD_beingPresent() {
-        when(experimentService.getExperiments()).thenReturn(Collections.singletonList(new Experiment(66666, "D", false)));
-        when(experimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(Collections.singletonList(new AnnotationExperiment(66666, "D", false)));
+        when(annotationBasedExperimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
 
         int randomNumber = (int) (Math.random() * 100);
         int otherRandomNumber = (int) (Math.random() * 100);
@@ -114,28 +114,28 @@ public class ExperimentFrameworkServiceImplTest {
 
     @Test
     public void shouldMarkTestAsImpactedWhenExperimentHasBeenUsed() {
-        when(experimentService.getExperiments()).thenReturn(Collections.singletonList(new Experiment(66666, "D", false)));
-        when(experimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(Collections.singletonList(new AnnotationExperiment(66666, "D", false)));
+        when(annotationBasedExperimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
 
         int randomNumber = (int) (Math.random() * 100);
         int otherRandomNumber = (int) (Math.random() * 100);
 
         int result = dummyExperimentalProxy.addition(randomNumber, otherRandomNumber);
         assertThat(result, is(randomNumber / otherRandomNumber));
-        verify(experimentService, times(1)).impact(66666);
+        verify(annotationBasedExperimentService, times(1)).impact(66666);
     }
 
     @Test
     public void shouldMarkTestAsImpactedWhenExperimentAHasBeenUsed() {
-        when(experimentService.getExperiments()).thenReturn(Collections.singletonList(new Experiment(66666, "A", false)));
-        when(experimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(Collections.singletonList(new AnnotationExperiment(66666, "A", false)));
+        when(annotationBasedExperimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
 
         int randomNumber = (int) (Math.random() * 100);
         int otherRandomNumber = (int) (Math.random() * 100);
 
         int result = dummyExperimentalProxy.addition(randomNumber, otherRandomNumber);
         assertThat(result, is(randomNumber + otherRandomNumber));
-        verify(experimentService, times(1)).impact(66666);
+        verify(annotationBasedExperimentService, times(1)).impact(66666);
     }
 
     @Test
@@ -145,17 +145,17 @@ public class ExperimentFrameworkServiceImplTest {
 
         int result = dummyExperimentalProxy.addition(randomNumber, otherRandomNumber);
         assertThat(result, is(randomNumber + otherRandomNumber));
-        verify(experimentService, times(0)).impact(66666);
+        verify(annotationBasedExperimentService, times(0)).impact(66666);
     }
 
     @Test
     public void usesCorrectMethodWhenMultipleExperimentsAreOnTheSameClass(){
-        List<Experiment> experiments = new ArrayList<>();
-        experiments.add(new Experiment(66666, "C",false));
-        experiments.add(new Experiment(11111,"B",false));
-        when(experimentService.getExperiments()).thenReturn(experiments);
-        when(experimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
-        when(experimentToggleService.getExperimentToggle(ALL_THE_ONES_EXPERIMENT)).thenReturn(true);
+        List<AnnotationExperiment> annotationExperiments = new ArrayList<>();
+        annotationExperiments.add(new AnnotationExperiment(66666, "C",false));
+        annotationExperiments.add(new AnnotationExperiment(11111,"B",false));
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(annotationExperiments);
+        when(annotationBasedExperimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
+        when(annotationBasedExperimentToggleService.getExperimentToggle(ALL_THE_ONES_EXPERIMENT)).thenReturn(true);
 
 
         double randomNumber =  (Math.random() * 100);
@@ -170,12 +170,12 @@ public class ExperimentFrameworkServiceImplTest {
 
     @Test
     public void withMultipleExperimentsOnlyTheCorrectExperimentIsImpacted(){
-        List<Experiment> experiments = new ArrayList<>();
-        experiments.add(new Experiment(66666, "C",false));
-        experiments.add(new Experiment(11111,"B",false));
-        when(experimentService.getExperiments()).thenReturn(experiments);
-        when(experimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
-        when(experimentToggleService.getExperimentToggle(ALL_THE_ONES_EXPERIMENT)).thenReturn(true);
+        List<AnnotationExperiment> annotationExperiments = new ArrayList<>();
+        annotationExperiments.add(new AnnotationExperiment(66666, "C",false));
+        annotationExperiments.add(new AnnotationExperiment(11111,"B",false));
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(annotationExperiments);
+        when(annotationBasedExperimentToggleService.getExperimentToggle(NUMBER_OF_BEAST_EXPERIMENT)).thenReturn(true);
+        when(annotationBasedExperimentToggleService.getExperimentToggle(ALL_THE_ONES_EXPERIMENT)).thenReturn(true);
 
         double randomNumber =  (Math.random() * 100);
         int otherRandomNumber = (int) (Math.random() * 100);
@@ -183,18 +183,18 @@ public class ExperimentFrameworkServiceImplTest {
         double result = dummyExperimentalProxy.pow(randomNumber,otherRandomNumber);
 
         assertThat(result, is(Math.max(randomNumber,otherRandomNumber)));
-        verify(experimentService,times(1)).impact(11111);
+        verify(annotationBasedExperimentService,times(1)).impact(11111);
     }
 
     @Test
     public void whenExpressionIsFalseUseAVariant(){
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(2);
         searchContext.setPickTime(localDateTime);
-        List<Experiment> experiments = new ArrayList<>();
-        experiments.add(new Experiment(3142, "B",false));
-        when(experimentService.getExperiments()).thenReturn(experiments);
-        when(experimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
-        when(expressionService.isLeadTimeLessThanTwentyFourHours()).thenReturn(false);
+        List<AnnotationExperiment> annotationExperiments = new ArrayList<>();
+        annotationExperiments.add(new AnnotationExperiment(3142, "B",false));
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(annotationExperiments);
+        when(annotationBasedExperimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
+        when(annotationBasedExpressionService.isLeadTimeLessThanTwentyFourHours()).thenReturn(false);
 
 
         double randomNum = Math.random() * 100.0;
@@ -209,11 +209,11 @@ public class ExperimentFrameworkServiceImplTest {
     public void whenExpressionIsTrueUseBVariant(){
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1);
         searchContext.setPickTime(localDateTime);
-        List<Experiment> experiments = new ArrayList<>();
-        experiments.add(new Experiment(3142, "B",false));
-        when(experimentService.getExperiments()).thenReturn(experiments);
-        when(experimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
-        when(expressionService.isLeadTimeLessThanTwentyFourHours()).thenReturn(true);
+        List<AnnotationExperiment> annotationExperiments = new ArrayList<>();
+        annotationExperiments.add(new AnnotationExperiment(3142, "B",false));
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(annotationExperiments);
+        when(annotationBasedExperimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
+        when(annotationBasedExpressionService.isLeadTimeLessThanTwentyFourHours()).thenReturn(true);
 
 
         double randomNum = Math.random() * 100.0;
@@ -228,17 +228,17 @@ public class ExperimentFrameworkServiceImplTest {
     public void whenExpressionIsTrueUseBVariantAndImpactExperiment(){
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1);
         searchContext.setPickTime(localDateTime);
-        List<Experiment> experiments = new ArrayList<>();
-        experiments.add(new Experiment(3142, "B",false));
-        when(experimentService.getExperiments()).thenReturn(experiments);
-        when(experimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
-        when(expressionService.isLeadTimeLessThanTwentyFourHours()).thenReturn(true);
+        List<AnnotationExperiment> annotationExperiments = new ArrayList<>();
+        annotationExperiments.add(new AnnotationExperiment(3142, "B",false));
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(annotationExperiments);
+        when(annotationBasedExperimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
+        when(annotationBasedExpressionService.isLeadTimeLessThanTwentyFourHours()).thenReturn(true);
 
         double randomNum = Math.random() * 100.0;
 
         dummyExperimentalProxy.sine(randomNum);
 
-        verify(experimentService,times(1)).impact(3142);
+        verify(annotationBasedExperimentService,times(1)).impact(3142);
 
     }
 
@@ -246,18 +246,18 @@ public class ExperimentFrameworkServiceImplTest {
     public void whenExpressionIsTrueUseAVariantAndImpactExperiment(){
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1);
         searchContext.setPickTime(localDateTime);
-        List<Experiment> experiments = new ArrayList<>();
-        experiments.add(new Experiment(3142, "A",false));
-        when(experimentService.getExperiments()).thenReturn(experiments);
-        when(experimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
-        when(expressionService.isLeadTimeLessThanTwentyFourHours()).thenReturn(true);
+        List<AnnotationExperiment> annotationExperiments = new ArrayList<>();
+        annotationExperiments.add(new AnnotationExperiment(3142, "A",false));
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(annotationExperiments);
+        when(annotationBasedExperimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
+        when(annotationBasedExpressionService.isLeadTimeLessThanTwentyFourHours()).thenReturn(true);
 
 
         double randomNum = Math.random() * 100.0;
 
         dummyExperimentalProxy.sine(randomNum);
 
-        verify(experimentService,times(1)).impact(3142);
+        verify(annotationBasedExperimentService,times(1)).impact(3142);
 
     }
 
@@ -265,16 +265,16 @@ public class ExperimentFrameworkServiceImplTest {
     public void whenExpressionIsFalseUseAVariantAndNotImpact(){
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(2);
         searchContext.setPickTime(localDateTime);
-        List<Experiment> experiments = new ArrayList<>();
-        experiments.add(new Experiment(3142, "B",false));
-        when(experimentService.getExperiments()).thenReturn(experiments);
-        when(experimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
+        List<AnnotationExperiment> annotationExperiments = new ArrayList<>();
+        annotationExperiments.add(new AnnotationExperiment(3142, "B",false));
+        when(annotationBasedExperimentService.getAnnotationExperiments()).thenReturn(annotationExperiments);
+        when(annotationBasedExperimentToggleService.getExperimentToggle(SINE_COSINE)).thenReturn(true);
 
         double randomNum = Math.random() * 100.0;
 
         dummyExperimentalProxy.sine(randomNum);
 
-        verify(experimentService,times(0)).impact(3142);
+        verify(annotationBasedExperimentService,times(0)).impact(3142);
 
     }
 

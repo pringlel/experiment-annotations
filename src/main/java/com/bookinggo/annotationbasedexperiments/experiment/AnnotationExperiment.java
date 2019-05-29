@@ -1,15 +1,13 @@
 package com.bookinggo.annotationbasedexperiments.experiment;
 
-import lombok.ToString;
 
-@ToString
-public class Experiment {
+public class AnnotationExperiment {
 
     private int id;
     private String variant;
     private boolean impacted;
 
-    public Experiment(int id, String variant, boolean used) {
+    public AnnotationExperiment(int id, String variant, boolean used) {
         this.id = id;
         this.variant = variant;
         this.impacted = used;

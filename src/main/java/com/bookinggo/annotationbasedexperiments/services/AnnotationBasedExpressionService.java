@@ -1,6 +1,6 @@
 package com.bookinggo.annotationbasedexperiments.services;
 
 
-public interface ExpressionService {
+public interface AnnotationBasedExpressionService {
     boolean isLeadTimeLessThanTwentyFourHours();
 }

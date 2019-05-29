@@ -1,9 +1,9 @@
 package com.bookinggo.annotationbasedexperiments.beanfactory;
 
-import com.bookinggo.annotationbasedexperiments.config.AppConfig;
+import com.bookinggo.annotationbasedexperiments.config.AnnotationBasedExperimentsConfig;
 import com.bookinggo.annotationbasedexperiments.config.TestConfig;
-import com.bookinggo.annotationbasedexperiments.experiment.Experiment;
-import com.bookinggo.annotationbasedexperiments.services.ExperimentService;
+import com.bookinggo.annotationbasedexperiments.experiment.AnnotationExperiment;
+import com.bookinggo.annotationbasedexperiments.services.AnnotationBasedExperimentService;
 import com.bookinggo.annotationbasedexperiments.testutils.AsynchTester;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,25 +22,25 @@ public class ThreadScopeEnabledBeanFactoryPostProcessorTest {
     @Test
     public final void whenExperimentsScopeIsThread_CreateNewBeanInEachThread() throws InterruptedException {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.register(AppConfig.class);
+        ctx.register(AnnotationBasedExperimentsConfig.class);
         ctx.register(TestConfig.class);
         ctx.refresh();
 
-        ExperimentService experimentService = ctx.getBean("experimentServiceImpl", ExperimentService.class);
-        experimentService.addExperiment(new Experiment(1, "A", true));
+        AnnotationBasedExperimentService annotationBasedExperimentService = ctx.getBean("annotationBasedExperimentServiceImpl", AnnotationBasedExperimentService.class);
+        annotationBasedExperimentService.addExperiment(new AnnotationExperiment(1, "A", true));
 
         AsynchTester asynchTester = new AsynchTester(() -> checkIfExperimentsExist(ctx));
         asynchTester.start();
         asynchTester.test();
 
-        ExperimentService otherExperimentService = ctx.getBean("experimentServiceImpl", ExperimentService.class);
+        AnnotationBasedExperimentService otherAnnotationBasedExperimentService = ctx.getBean("annotationBasedExperimentServiceImpl", AnnotationBasedExperimentService.class);
 
-        assertThat(otherExperimentService.getExperiments().size(), is(1));
+        assertThat(otherAnnotationBasedExperimentService.getAnnotationExperiments().size(), is(1));
 
     }
 
     private void checkIfExperimentsExist(AnnotationConfigApplicationContext ctx) {
-        ExperimentService otherExperimentService = ctx.getBean("experimentServiceImpl", ExperimentService.class);
-        assertThat(otherExperimentService.getExperiments().size(), is(0));
+        AnnotationBasedExperimentService otherAnnotationBasedExperimentService = ctx.getBean("annotationBasedExperimentServiceImpl", AnnotationBasedExperimentService.class);
+        assertThat(otherAnnotationBasedExperimentService.getAnnotationExperiments().size(), is(0));
     }
 }

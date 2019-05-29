@@ -6,15 +6,16 @@ import com.bookinggo.annotationbasedexperiments.experiment.Experiment;
 import com.bookinggo.annotationbasedexperiments.services.ExperimentService;
 import com.bookinggo.annotationbasedexperiments.testutils.AsynchTester;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.runner.RunWith;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-@SpringBootTest
+@RunWith(SpringRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 public class ThreadScopeEnabledBeanFactoryPostProcessorTest {
 
